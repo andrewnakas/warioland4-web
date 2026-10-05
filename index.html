@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!--
+  The real "never uploaded" boundary. This is enforced by the browser, not by
+  page script, so it does not depend on a monkey-patched fetch winning a race
+  against anything else on the page, and a reviewer can check it by reading one
+  line instead of auditing the JS.
+
+    default-src 'none'   nothing loads unless named below
+    connect-src 'self'   fetch/XHR/WebSocket/sendBeacon cannot reach another
+                         origin at all -- the ROM physically cannot be uploaded
+    script-src           'self' plus wasm-unsafe-eval for WebAssembly.instantiate.
+                         No 'unsafe-inline': app.js and app.css are separate
+                         files precisely so this stays strict.
+    form-action 'none'   no form POST escape hatch
+    base-uri 'none'      a rewritten <base> cannot repoint 'self'
+
+  IndexedDB (where the ROM and the cartridge save are cached) is local storage,
+  not a network sink, and is intentionally not restricted.
+-->
+<meta http-equiv="Content-Security-Policy" content="
+  default-src 'none';
+  script-src 'self' 'wasm-unsafe-eval';
+  style-src 'self';
+  img-src 'self' blob: data:;
+  connect-src 'self';
+  form-action 'none';
+  base-uri 'none';
+  object-src 'none';
+  frame-src 'none';
+  worker-src 'none'">
+<title>Wario Land 4</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div id="wrap"><canvas id="canvas" width="240" height="160" tabindex="-1"></canvas></div>
+
+<div id="overlay">
+  <h1>Wario Land 4</h1>
+  <p class="sub">The <a href="https://github.com/TsilaAllaoui/warioland4">TsilaAllaoui/warioland4</a>
+     decompilation, built to a byte-identical ROM and run here on a WebAssembly build of
+     <a href="https://mgba.io">mGBA</a>.</p>
+  <div id="pick">
+    <b>Choose your Wario Land 4 ROM</b>
+    <span class="hint">click here, or drag the file in &middot; .gba, 8&nbsp;MB, (USA, Europe)</span>
+  </div>
+  <input id="rom-file" type="file" accept=".gba,.bin">
+  <p class="note"><strong>Your ROM stays on this device.</strong> It is read into memory with the
+     browser's own file reader and kept in this page's local storage so you don't have to pick it
+     again. There is no server to upload it to &mdash; this page is static files, and its
+     Content-Security-Policy forbids any connection to another origin.</p>
+  <p id="err"></p>
+</div>
+
+<div id="hud">
+  <span id="stat">loading&hellip;</span>
+  <span class="sep">|</span>
+  <button id="mutebtn" class="muted">muted &mdash; click for sound</button>
+  <button id="savebtn">save state</button>
+  <button id="loadbtn">load state</button>
+  <button id="forget">forget ROM</button>
+  <span id="savedot">&#9679; saved</span>
+  <span class="sep deskonly">|</span>
+  <span class="deskonly"><kbd>X</kbd> A &middot; <kbd>Z</kbd> B &middot; <kbd>&crarr;</kbd> Start &middot;
+    <kbd>&#8679;</kbd> Select &middot; arrows &middot; <kbd>A</kbd>/<kbd>S</kbd> L/R</span>
+</div>
+
+<script src="warioland4.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
