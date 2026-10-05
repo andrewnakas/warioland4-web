@@ -1,0 +1,43 @@
+# Nothing ROM-derived is ever committed. The build extracts what it needs from
+# the user's own cartridge dump at build time, on their machine.
+
+# ROMs and disc images of every shape
+*.gba
+*.gb
+*.gbc
+*.nes
+*.sfc
+*.smc
+*.md
+*.z64
+*.iso
+*.gcm
+*.rvz
+*.bin
+baserom*
+!README.md
+!STATUS.md
+
+# Assets extracted from the ROM by `make extract` (tools/extract_assets.py).
+# data/ is the raw binaries, include/data/ the generated .inc tables; both are
+# verbatim cartridge bytes.
+upstream/*/data/
+upstream/*/include/data/
+
+# Build output, including the built ROM and the linker map
+upstream/*/build/
+web/dist/
+web/test/core-node.js
+web/test/core-node.wasm
+
+# Upstream checkouts: clones, pinned by revision in STATUS.md, not vendored here
+upstream/lilDavid/
+upstream/TsilaAllaoui/
+
+# Test artefacts (screenshots of the game are ROM-derived pixels)
+*.png
+*.ppm
+shots/
+
+__pycache__/
+*.pyc

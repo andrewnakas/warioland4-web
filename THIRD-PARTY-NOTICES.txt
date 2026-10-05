@@ -1,0 +1,33 @@
+THIRD-PARTY NOTICES
+===================
+
+This repository contains build tooling and a browser front-end. It contains no
+game ROM and no bytes extracted from one. The browser build links the following
+third-party component, whose licence terms are reproduced alongside this file.
+
+mGBA
+----
+  Used for   : Game Boy Advance emulation core, compiled to WebAssembly.
+               This project links mGBA's mCore API directly; there is no
+               emulator front-end in between.
+  Version    : git 68cf79fe55257b61efaeea87c83de69aab01f963 (2026-10-04)
+  Licence    : MPL-2.0 (Mozilla Public License, Version 2.0)
+  Licence text: see LICENSE-MPL-2.0.txt in this directory
+  Source     : https://github.com/mgba-emu/mgba
+
+  Corresponding source: mGBA is used unmodified at the revision above. Its
+  complete source is obtainable from the upstream repository at that exact
+  revision. Per MPL-2.0 section 3.2, no modifications to MPL-covered files were
+  made by this project; the WebAssembly artifact is a compilation of unmodified
+  upstream sources.
+
+Emscripten / SDL2
+-----------------
+  Used for   : the WebAssembly toolchain and its bundled SDL2 port.
+  Licence    : MIT (Emscripten), zlib (SDL2)
+  Source     : https://github.com/emscripten-core/emscripten
+               https://github.com/libsdl-org/SDL
+
+The decompilation this project builds from, and its exact pinned revision, are
+recorded in STATUS.md. That upstream carries its own licence; this repository
+redistributes none of its code.
